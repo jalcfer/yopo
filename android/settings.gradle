@@ -1,0 +1,3 @@
+rootProject.name = 'yopo'
+
+include ':app'
