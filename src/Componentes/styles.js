@@ -1,6 +1,6 @@
 /**
- * NAPPS - Neuronapps
- * https://github.com/baure/napps
+ * YOPO - Red de Intercambio Social El Yopo
+ * https://github.com/jalcfer/yopo
  * @flow
  */
 
@@ -13,172 +13,293 @@ import{
     dW,
 } from '../Helpers/constantes'
 
+import {
+  PRIMARY,
+  SECONDARY,
+  LINE,
+  INPUTFORM,
+  SECONDARYBLUE,
+  BGBLUE,
+} from '../Helpers/colors'
+
+
 
  /**
   * Login Styles
   */
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#669D6E',
-      justifyContent: 'flex-start',
+      backgroundColor: PRIMARY,
+      justifyContent: 'center',
       alignItems: 'center',
       width: '100%',
       height: '100%',
     },
+    logo:{
+      flex:1,
+      width:dW*0.92,
+    },
     regform:{
+      justifyContent:'center',
+      backgroundColor: SECONDARY,
       alignSelf:'stretch',
-    },
-    textinput:{
-      fontFamily: 'Open Sans',
-      fontWeight: '500',
-      fontStyle: 'normal',
-      flex:1,
-      color:'#fff',
-      fontSize:14,
-      height:20,
-    },
-    textarea:{
-      fontFamily: 'Open Sans',
-      fontWeight: '500',
-      fontStyle: 'normal',
-      flex:1,
-      color:'#fff',
-      fontSize:14,
-      textAlignVertical:'top',
+      marginHorizontal:dW*0.04,
+      borderRadius:15,
+      paddingVertical:dH*0.02,
     },
     viewfield:{
       flexDirection:'row',
       backgroundColor:'transparent',
-      alignSelf:'stretch',
-      justifyContent:'center',
-      paddingHorizontal:30,
-      paddingBottom:10,
-    },
-    noPadding:{
-      paddingHorizontal:0,
-    },
-    Padding:{
-      paddingHorizontal:30,
-    },
-    viewUser:{
-      flexDirection:'row',
-      backgroundColor:'transparent',
-      alignSelf:'stretch',
-      justifyContent:'center',
-      height:dH*0.2,
-      paddingHorizontal:30,
-      paddingBottom:10,
-    },
-    viewImage:{
-      flex:1,
-      height:dH*0.4,
-      marginBottom:dH*0.1,
-      backgroundColor:'#FFF',
-      paddingVertical:dH*0.05,
-      justifyContent:'center',
-      alignItems:'center',
-    },
-    logo:{
-      width: '60%',
-      height: '60%',
-      resizeMode:'contain',
-      paddingHorizontal:dW*0.01,
-    },
-    registerfield:{
-      flex:1,
-      borderBottomColor:'#020030',
-      borderBottomWidth:0.5,
-      height:40
-    },
-    registerfieldTA:{
-      height:80,
+      borderBottomColor:'#000',
+      borderBottomWidth:1,
+      marginHorizontal:dW*0.05,
+      marginBottom:dH*0.01,
     },
     icon:{
-      paddingTop: 10,
-      marginRight: 10,
-      fontSize: 32,
-      color: '#020030',
-    },
-    iconSearch:{
-      fontSize: 32,
-      color: '#020030',
+      paddingTop: dH*0.027,
+      marginLeft: dW*0.05,
+      fontSize: 18,
+      color: SECONDARYBLUE,
     },
     button:{
       flex:1,
       justifyContent:'center',
       alignItems:'center',
-      paddingVertical:9,
-      paddingHorizontal:15,
-      marginTop:dH*0.04,
-      borderRadius:20,
-      borderColor:'#020030',
-      borderWidth:0.7,
-    },
-    buttonSearch:{
-      flex:0.5,
-      justifyContent:'center',
-      alignItems:'center',
+      backgroundColor:SECONDARYBLUE,
+      marginVertical:dH*0.05,
+      marginHorizontal:dW*0.1,
+      paddingVertical:dH*0.04,
     },
     btnText:{
-      fontFamily: 'Open Sans',
-      fontWeight: '500',
-      fontStyle: 'normal',
       backgroundColor:'transparent',
-      color:'#fff',
+      color:SECONDARY,
+      fontSize:14,
+    },
+    anchor:{
+      justifyContent:'center',
+      alignItems:'center',
+      marginTop:dH*0.05,
+      marginBottom:dH*0.05,
+    },
+    anchorText:{
+
+    },
+    /**
+     * Personal Data Config Styles
+     */
+    containerPD:{
+      backgroundColor: SECONDARY,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      width: '100%',
+      height: '100%',
+    },
+    header:{
+      width:dW,
+      height:dH*0.1,
+    },
+    headerTitle:{
+      color: SECONDARY,
       fontSize:18,
     },
-    title:{
-      flex:1,
-      fontFamily: 'Open Sans',
-      fontWeight: '500',
-      fontStyle: 'normal',
-      backgroundColor:'transparent',
-      color:'#fff',
-      fontSize:18,
-      textAlign:'left',
+    avatarView:{
+      justifyContent:'center',
+      alignItems:'center',
+      width:dW,
+      marginTop:dH*0.05,
+    },
+    avatarText:{
+      marginVertical:dH*0.02
     },
     line:{
-      flex:1,
-      borderBottomColor:'#020030',
+      borderBottomColor:LINE,
       borderBottomWidth:0.5,
-      height:10,
+      height:0,
+      width:dW*0.2,
     },
-    oText:{
-      fontFamily: 'Open Sans',
-      fontWeight: '600',
-      fontStyle: 'normal',
-      backgroundColor:'transparent',
-      color:'#fff',
+    regformPersonalData:{
+      justifyContent:'center',
+      backgroundColor: SECONDARY,
+      alignSelf:'stretch',
+      marginHorizontal:dW*0.04,
+      marginVertical:dH*0.01,
+      alignItems:'center',
+    },
+    field:{
+      marginVertical:dH*0.03,
+    },
+    inputContainer:{
+      //borderColor:'green',
+      //borderWidth:1,
+      padding:0,
+      borderBottomColor:SECONDARYBLUE,
+      borderBottomWidth:0.7,
+    },    
+    input:{
+      padding:0,
+      marginVertical:0,
+      paddingLeft:dW*0.05,
       fontSize:14,
+      color:INPUTFORM,
+      minHeight:30,
+      width:dW*0.8
     },
-    facebookButton:{
+    labelContainer:{
+      justifyContent:'flex-start',
+      alignItems:'flex-start',
+      padding:0,
+      margin:0,
+      height:dH*0.025,
+    },
+    label:{
+      fontSize:14,
+      marginRight: 0,
+      marginTop: 0,
+      marginLeft:dW*0.1,
+    },
+    genderButtons:{
+      marginTop:dH*0.03,
+      height: dH*0.08,
+      width: dW*0.8,
+    },
+    buttonContinuar:{
+      backgroundColor:PRIMARY,
+      marginVertical:dH*0.03,
+      marginHorizontal:dW*0.1,
+      paddingVertical:dH*0.02,
+      width:dW*0.8,
+    },
+    captchaView:{
       flexDirection:'row',
+      width:dW*0.8,
+      height:dH*0.14,
+      marginVertical:dH*0.03,
+    },
+    captchaImage: {
+      flex: 1,
+      resizeMode: 'contain',
+    },
   
+    /**
+     * CONFIG ADDRESS STYLES
+     */
+    mapsContainer:{
+      paddingTop:dH*0.03,
+      height:dH*0.4,
+      width:dW*0.8,
     },
-    iconfacebook:{
-      fontSize:23,
+    marker: {
+      height: 64,
+      width: 64
+    },
+    markerFixed: {
+      left: '50%',
+      marginLeft: -32,
+      marginTop: -32,
+      position: 'absolute',
+      top: '50%'
+    },
+    /**
+     * PROFILE STYLES
+     */
+    profileContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: BGBLUE,
+    },
+    imageView:{
+      flex:1,
+      width:dW,
+      alignItems:'center',
+      justifyContent:'center',
+    },
+    historyView:{
+      flex:1.5,
+      width:dW,
+      paddingHorizontal:dW*0.1,
+      backgroundColor:SECONDARY,
+    },
+    nameAccess:{
+      marginVertical:dH*0.01,
+      alignItems:'center',
+    },
+    text:{
+      color:SECONDARY,
+    },
+    textCuenta:{
+      paddingVertical:dH*0.03,
+      paddingLeft:dW*0.02,
+      color:BGBLUE,
+    },
+    history:{
+
+    },
+    balanceView:{
+      flexDirection:'row',
+      marginVertical:dH*0.02,
+    },
+    textSaldo:{
+      flex:1,
+    },
+    balance:{
+      flex:1.5,
+      backgroundColor:PRIMARY,
+      textAlign:'right',
+      textAlignVertical:'center',
       color:'white',
+      borderRadius:5,
+      fontSize:18,
+      paddingHorizontal:dH*0.02,
     },
-    faceText:{
-      fontFamily: 'Open Sans',
-      fontWeight: '400',
-      fontStyle: 'normal',
-      fontSize:14,
-      color:'#fff',
-      marginLeft:10,
-      height:20,
-      paddingTop:2,
-    },
+    /**
+     * PAYMENT STYLES
+     */
     contentContainer:{
       width:dW,
     },
-
-    userContainer: {
-      flex:1,
+    selectForm:{
+      marginTop:dH*0.1,
+      height:dH*0.3
+    },    
+    BgSelectUser:{
+      backgroundColor:BGBLUE,
+    },
+    buttonSearch:{
+      position:'absolute',
+      right:dW*0.1,
+      top:-20,
+    },
+    iconSearch:{
+      color:PRIMARY,
+      fontSize:44,
+    },
+    title:{
+      color:BGBLUE,
+      marginLeft:dW*0.1,
+      fontSize:14,
+    },
+    viewUser:{
+      justifyContent:'center',
+      alignItems:'center',
+      marginTop:dH*0.07,
+      height:dH*0.2,
+      borderColor:'green',
+      borderWidth:1,
+    },
+    /**
+     * MAKEPAYMENT STYLES
+     */
+    userContainer:{
       flexDirection:'row',
       alignItems: 'center',
       justifyContent:'center',
+      paddingHorizontal:dW*0.03,
     },
+    formMakePayment:{
+      marginTop:dH*0.05,
+      height:dH*0.3
+    },    
     userProfileImage:{
       flex:0.3,
     },
@@ -196,14 +317,18 @@ const styles = StyleSheet.create({
       justifyContent:'center',
     },
     name:{
-      color:'#FFF',
+      color:BGBLUE,
       fontSize:24,
       paddingBottom:dH*0.01,
     },
     username:{
-      color:'rgba(255,255,255,0.5)',
+      color:'rgba(0,0,0,0.5)',
       fontSize:18,
     },
+    cancelar:{
+      backgroundColor:PRIMARY,
+      marginVertical:3,
+    }
   });
 
   export default styles

@@ -3,6 +3,11 @@ package com.yopo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
+import com.devfd.RNGeocoder.RNGeocoderPackage;
+import com.devfd.RNGeocoder.RNGeocoderPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -24,7 +29,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new VectorIconsPackage()
+          new RNFusedLocationPackage(),
+          new RNGeocoderPackage(),
+          new MapsPackage(),
+          new ImagePickerPackage(),
+          new VectorIconsPackage()
       );
     }
 

@@ -17,6 +17,13 @@ import {
   dW,
 } from '../Helpers/constantes'
 
+import {
+  PRIMARY,
+  SECONDARY
+} from '../Helpers/colors'
+
+import OpenSans from '../Helpers/fonts'
+
 import Icon from 'react-native-vector-icons/Ionicons'
 
 
@@ -24,6 +31,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
  * Init stack
  */
 import Login from '../Componentes/Login';
+import ConfigPersonalData from '../Componentes/ConfigPersonalData'
+import ConfigAddress from '../Componentes/ConfigAddress'
 
  
 /**
@@ -32,6 +41,7 @@ import Login from '../Componentes/Login';
 import Marketplace from '../Componentes/Marketplace';
 import SelectUser from '../Componentes/SelectUser'
 import MakePayment from '../Componentes/MakePayment';
+import SelectUserFromReceivePayment from '../Componentes/SelectUserFromReceivePayment'
 import ReceivePayment from '../Componentes/ReceivePayment';
 import Profile from '../Componentes/Profile';
 /* 
@@ -43,7 +53,28 @@ import Profile from '../Componentes/Profile';
       }
     },
 */
-const Payment = createStackNavigator({
+const Init = createStackNavigator({
+  Login :{
+    screen: Login,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  ConfigData :{
+    screen: ConfigPersonalData,
+    navigationOptions: {
+      header: null,
+    }
+  },
+  ConfigAddress :{
+    screen: ConfigAddress,
+    navigationOptions: {
+      header: null,
+    }
+  },
+})
+
+const PaymentStack = createStackNavigator({
   SelectUser:{
     screen: SelectUser,
     navigationOptions:{
@@ -64,11 +95,47 @@ const Payment = createStackNavigator({
   }
 })
 
-
-const PaymentsTabs = createMaterialTopTabNavigator({
-  Pagar: Payment,
-  ReceivePayment: { 
+const ReceivePaymentStack = createStackNavigator({
+  SelectUserFromReceive:{
+    screen: SelectUserFromReceivePayment,
+    navigationOptions:{
+      header: null,
+    }
+  },
+  ReceivePayment:{
     screen: ReceivePayment,
+    navigationOptions:{
+      header:null
+    }
+  }
+},{
+  initialRouteName:'SelectUserFromReceive',
+  headerMode:'screen',
+  navigationOptions:{
+    title:'Pagar'
+  }
+})
+
+
+
+const MainStack = createMaterialTopTabNavigator({
+  Profile: {
+    screen: Profile,
+    navigationOptions: {
+      title:'Perfil',
+      showIcon:true,
+      showLabel: false,
+      tabBarIcon:({tintColor}) => <Icon color={tintColor} name={'ios-person'} size={30}/>
+    }
+  },
+  Pay: { 
+    screen: PaymentStack,
+    navigationOptions: {
+      title:'Pagar',
+    }
+  },
+  Receive: { 
+    screen: ReceivePaymentStack,
     navigationOptions: {
       title:'Recibir Pago',
     }
@@ -76,23 +143,28 @@ const PaymentsTabs = createMaterialTopTabNavigator({
 },{
   tabBarOptions: {
     scrollEnabled: true,
-    labelStyle: {
-      fontSize: 14,
-      color:'#000',
-    },
+    labelStyle: [{
+      fontSize: 13,
+      color:SECONDARY,
+    },OpenSans.Bold],
     tabStyle: {
-      width: dW*0.5,
+      width:dW*0.333,
       height:dH*0.09,
+      textAlign:'center',
     },
     style: {
-      backgroundColor: '#FFF',
+      backgroundColor: PRIMARY,
     },
     indicatorStyle: {
-      backgroundColor: '#020030'
-    }
+      backgroundColor: SECONDARY,
+      height:dH*0.007
+
+    },
+    activeTintColor: 'rgb(0, 0, 51)',
+    inactiveTintColor: '#CECECE',    
   },
 });
-
+/*
 const MainStack= createBottomTabNavigator(
   {
     PaymentsTabs:PaymentsTabs,
@@ -138,14 +210,9 @@ const MainStack= createBottomTabNavigator(
     headerMode:'screen',
   }
 )
-
+*/
 const RootNavigator = createStackNavigator({
-  Login :{
-    screen: Login,
-    navigationOptions: {
-      header: null,
-    }
-  },
+  Login : Init,
   Main : MainStack
 },{
   initialRouteName:'Login',

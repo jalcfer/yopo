@@ -1,6 +1,6 @@
 /**
- * NAPPS - Neuronapps
- * https://github.com/baure/napps
+ * YOPO - Red de Intercambio Social El Yopo
+ * https://github.com/jalcfer/yopo
  * @flow
  */
 
@@ -13,6 +13,14 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+
+import { 
+  Avatar,
+  FormLabel, 
+  FormInput, 
+  Button,
+  Divider
+} from 'react-native-elements'
 
 import { 
   NavigationActions
@@ -29,8 +37,10 @@ import {
   makePayment
 } from '../Store/actions'
 
+import OpenSans from '../Helpers/fonts'
+
 import {
-  dH,
+  dH,dW,
   TOAST_UNKNOWN_ERROR,
   TOAST_EMPTY_AMOUNT,
   TOAST_CONFIG,
@@ -43,6 +53,10 @@ import {
   TOAST_MAKE_PAYMENT_ERROR,
   TOAST_MAKE_PAYMENT_SUCCESS,
 } from '../Helpers/constantes'
+
+import {
+  BGBLUE
+} from '../Helpers/colors'
 
 import {
   validate
@@ -79,7 +93,15 @@ class MakePayment extends Component {
   }
 
   componentWillUnmount() {
-  }  
+  }
+
+  cancelPayment(){
+    if(this.props.clearUserTo()){
+      this.amount.clearText()
+      this.description.clearText()
+      this.props.navigation.navigate('SelectUser')
+    }
+  }
   
   makePayment(){
     this.setModalVisible(true)
@@ -153,60 +175,64 @@ class MakePayment extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container,styles.BgSelectUser]}>
         <Spinner visible={this.state.modalVisible} textContent={"Cargando..."} textStyle={{color: '#FFF'}} />
         <ScrollView style={styles.contentContainer}>
-          <View style={styles.regform}>
-            <View style={styles.viewfield}>
-              <Text style={styles.title}>Pagar a:</Text>
-            </View>
-            <View style={styles.viewUser}>
-              <View style={styles.userContainer}>
-                <View style={styles.userProfileImage}>
-                  <Image style={styles.image} source={{uri:this.props.userTo.image.url}}></Image>
-                </View>
-                <View style={styles.userData}>
-                  <Text style={styles.name}>{this.props.userTo.display}</Text>
-                  <Text style={styles.username}>{this.props.userTo.username}</Text>
-                </View>
+          <View style={[styles.regform,styles.formMakePayment]}>
+            <Text style={[styles.title,OpenSans.Bold]}>Pagar a:</Text>
+            <Divider style={{ backgroundColor: BGBLUE,marginHorizontal:dW*0.02,marginVertical:dH*0.02 }} />
+            <View style={styles.userContainer}>
+              <View style={styles.userProfileImage}>
+                <Image style={styles.image} source={{uri:this.props.userTo.image.url}}></Image>
               </View>
-            </View>
-            <View style={styles.viewfield}>
-              <Icon name="ios-pricetag" style={styles.icon}/>
-              <View style={styles.registerfield}>
-                <TextInput
-                  style={styles.textinput}
-                  placeholder={'Valor'}
-                  secureTextEntry={false}
-                  underlineColorAndroid={'transparent'}
-                  placeholderTextColor='rgba(255,255,255,0.5)'
-                  onChangeText={(value) => this.setState({ amount: value })}
-                  value={this.state.amount}
-                />
+              <View style={styles.userData}>
+                <Text style={styles.name}>{this.props.userTo.display}</Text>
+                <Text style={styles.username}>{this.props.userTo.username}</Text>
               </View>
-            </View>
-            <View style={styles.viewfield}>
-              <Icon name="ios-list" style={styles.icon}/>
-              <View style={[styles.registerfield,styles.registerfieldTA]}>
-                <TextInput
-                  style={styles.textarea}
-                  placeholder={'Descripción'}
-                  multiline={true}
-                  numberOfLines={10}
-                  secureTextEntry={false}
-                  underlineColorAndroid={'transparent'}
-                  placeholderTextColor='rgba(255,255,255,0.5)'
-                  onChangeText={(value) => this.setState({ description: value })}
-                  value={this.state.description}
-                />
-              </View>
-            </View>
-            <View style={styles.viewfield}>
-              <TouchableOpacity style={styles.button}  onPress={() => this.makePayment()}>
-                <Text style={styles.btnText}>Realizar Pago</Text>
-              </TouchableOpacity>
             </View>
           </View>
+
+          <View style={styles.field}>
+            <FormLabel
+              containerStyle={styles.labelContainer}
+              labelStyle={[styles.label,{color:'#FFF'}]}
+            >
+              MONTO
+            </FormLabel>
+            <FormInput
+              ref={amount => this.amount = amount}
+              containerStyle={styles.inputContainer}
+              inputStyle={[styles.input,{color:'#FFF'}]} 
+              placeholder='escribe el valor que vas a transferir'
+              placeholderTextColor='rgba(255,255,255,0.5)'
+              value={this.state.amount}
+              keyboardType='numeric'
+              onChangeText={amount => this.setState({ amount })}
+            />
+          </View>
+          <View style={styles.field}>
+            <FormLabel
+              containerStyle={styles.labelContainer}
+              labelStyle={[styles.label,{color:'#FFF'}]}
+            >
+              DESCRIPCIÓN
+            </FormLabel>
+            <FormInput
+              ref={description => this.description = description}
+              containerStyle={styles.inputContainer}
+              inputStyle={[styles.input,{color:'#FFF'}]} 
+              placeholder='Descripción'
+              placeholderTextColor='rgba(255,255,255,0.5)'
+              value={this.state.description}
+              onChangeText={description => this.setState({ description })}
+            />
+          </View>
+          <TouchableOpacity style={[styles.button,OpenSans.Bold,{marginBottom:3}]}  onPress={() => this.makePayment()}>
+            <Text style={[styles.btnText,OpenSans.Bold]}>REALIZAR PAGO</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button,styles.cancelar]}  onPress={() => this.cancelPayment()}>
+            <Text style={[styles.btnText,OpenSans.Bold]}>CANCELAR</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );

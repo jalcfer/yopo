@@ -1,8 +1,9 @@
 /**
- * NAPPS - Neuronapps
- * https://github.com/baure/napps
+ * YOPO - Red de Intercambio Social El Yopo
+ * https://github.com/jalcfer/yopo
  * @flow
  */
+
 
 import React, { Component } from 'react';
 import {
@@ -13,12 +14,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+import {
+  Button,
+  FormInput, 
+  FormValidationMessage,
+} from 'react-native-elements'
+
+import OpenSans from '../Helpers/fonts'
+import logo from '../../assets/images/logo.png'
+import futc from '../../assets/images/futc.png'
+import uniremington from '../../assets/images/uniremington.png'
+
 import { 
   NavigationActions
  } from 'react-navigation';
 
 import styles from './styles'
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Toast from 'react-native-root-toast'
 import Spinner from 'react-native-loading-spinner-overlay'
 import {connect} from 'react-redux'
@@ -56,14 +68,11 @@ class Login extends Component {
     this.state = {
       user: null,
       name: '',
-      usuario:'',
+      celular:'',
       password:'',
       message:'',
       modalVisible:false,
     };
-  }
-
-  signOutUser() {
   }
 
   setModalVisible(visible) {
@@ -87,8 +96,8 @@ class Login extends Component {
   signIn(){
     this.setModalVisible(true)
 
-    const {usuario,password} = this.state    
-    if(usuario === ''){
+    const {celular,password} = this.state    
+    if(celular === ''){
       Toast.show(TOAST_EMPTY_USERNAME, TOAST_CONFIG);      
       this.setModalVisible(false)    
       return false
@@ -98,11 +107,11 @@ class Login extends Component {
       this.setModalVisible(false)    
       return false
     }
-    this.props.login(usuario,password).then((data)=>{
+    this.props.login(celular,password).then((data)=>{
       console.log('state')
       if(data.type===LOGIN_FAIL){
         this.setState({
-          usuario:'',
+          celular:'',
           password:''
         })
         this.setModalVisible(false)
@@ -124,44 +133,49 @@ class Login extends Component {
     return (
       <View style={styles.container}>
         <Spinner visible={this.state.modalVisible} textContent={"Cargando..."} textStyle={{color: '#FFF'}} />
+        <View style={styles.logo}>
+          <Image style={{flex:1,width:null,height:null,resizeMode:'contain'}} source={logo} />
+        </View>
         <View style={styles.regform}>
-          <View style={[styles.viewfield,styles.noPadding]}>
-            <View style={styles.viewImage}>
-              <Image style={styles.logo} source={require('../../assets/login/yopo.png')}/>
-            </View>
+          <View style={styles.viewfield}>
+            <Icon name="cellphone" style={styles.icon}/>
+            <FormInput 
+              placeholder='Celular'
+              value={this.state.celular}
+              keyboardType='phone-pad'
+              onChangeText={celular => this.setState({ celular })}
+            />
+            <FormValidationMessage>{this.state.cellEror}</FormValidationMessage>            
           </View>
           <View style={styles.viewfield}>
-            <Icon name="ios-call" style={styles.icon}/>
-            <View style={styles.registerfield}>
-              <TextInput
-                style={styles.textinput}
-                placeholder={'Celular'}
-                secureTextEntry={false}
-                underlineColorAndroid={'transparent'}
-                placeholderTextColor='rgba(255,255,255,0.3)'
-                onChangeText={(value) => this.setState({ usuario: value })}
-                value={this.state.usuario}
-              />
-            </View>
+            <Icon name="key" style={styles.icon}/>
+            <FormInput 
+              placeholder={'Contraseña'}
+              secureTextEntry={true}
+              value={this.state.password}
+              keyboardType='numeric'
+              onChangeText={password => this.setState({ password })}
+            />
+            <FormValidationMessage>{this.state.cellEror}</FormValidationMessage>            
           </View>
-          <View style={styles.viewfield}>
-            <Icon name="md-key" style={styles.icon}/>
-            <View style={styles.registerfield}>
-              <TextInput
-                style={styles.textinput}
-                placeholder={'Contraseña'}
-                secureTextEntry={true}
-                underlineColorAndroid={'transparent'}
-                placeholderTextColor='rgba(255,255,255,0.3)'
-                onChangeText={(value) => this.setState({ password: value })}
-                value={this.state.password}
-              />
-            </View>
+          <Button
+            large
+            onPress={()=>this.signIn()}
+            buttonStyle={styles.button}
+            textStyle={[styles.btnText,OpenSans.Normal]}
+            title='INICIAR SESIÓN' />            
+        </View>
+        <TouchableOpacity style={styles.anchor}  onPress={() => this.props.navigation.navigate('ConfigData')}>
+          <Text style={styles.anchorText}>¿No tienes una cuenta?</Text>
+          <Text style={styles.anchorText}>¡Crea una y empieza ahora mismo!</Text>
+        </TouchableOpacity>
+        <Text>Patrocinado por:</Text>
+        <View style={{flexDirection:'row',height:dH*0.1,marginVertical:dH*0.025}}>
+          <View style={{flex:1,height:'100%'}}>
+            <Image style={{flex:1,width:null,height:null,resizeMode:'contain'}} source={futc} />
           </View>
-          <View style={styles.viewfield}>
-            <TouchableOpacity style={styles.button}  onPress={() => this.signIn()}>
-              <Text style={styles.btnText}>Ingresar</Text>
-            </TouchableOpacity>
+          <View style={{flex:1}}>
+            <Image style={{flex:1,width:null,height:null,resizeMode:'contain'}} source={uniremington} />
           </View>
         </View>
       </View>

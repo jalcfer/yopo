@@ -1,6 +1,6 @@
 /**
- * NAPPS - Neuronapps
- * https://github.com/baure/napps
+ * YOPO - Red de Intercambio Social El Yopo
+ * https://github.com/jalcfer/yopo
  * @flow
  */
 
@@ -17,6 +17,15 @@ import {
 import { 
   NavigationActions
  } from 'react-navigation';
+ 
+ import { 
+  Avatar,
+  FormLabel, 
+  FormInput, 
+  Button,
+  Divider
+} from 'react-native-elements'
+
 
 import styles from './styles'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -40,11 +49,15 @@ import {
   GET_USERS_SUCCESS,
   GET_USER_FAIL,
   GET_USER_SUCCESS,
+  dH,
+  dW,
 } from '../Helpers/constantes'
 
 import {
   validate,
 } from '../Helpers/functions'
+import OpenSans from '../Helpers/fonts';
+import { BGBLUE } from '../Helpers/colors';
 
 class SelectUser extends Component {
 
@@ -97,22 +110,27 @@ class SelectUser extends Component {
         const users = response.payload.data
         const userToIndex = users.findIndex(user => user.shortDisplay === this.state.celular);
         const userTo = users[userToIndex]
-
-        this.props.getUser(userTo.id,accessToken).then((response)=>{
-          if(response.type===GET_USER_FAIL){
-            this.setModalVisible(false)
-            Toast.show(TOAST_USER_NOTFOUND, TOAST_CONFIG)
-          } else if (response.type === GET_USER_SUCCESS){
-            this.setModalVisible(false)
-            console.log('getUser - response',response)
-            this.setState({
-              user:response.payload.data
-            })
-          }
-        })
-        .catch((error)=>{
-          console.log('getUserError:',error)
-        })
+        if(userTo){
+          this.props.getUser(userTo.id,accessToken).then((response)=>{
+            if(response.type===GET_USER_FAIL){
+              this.setModalVisible(false)
+              Toast.show(TOAST_USER_NOTFOUND, TOAST_CONFIG)
+            } else if (response.type === GET_USER_SUCCESS){
+              this.setModalVisible(false)
+              console.log('getUser - response',response)
+              this.setState({
+                user:response.payload.data
+              })
+            }
+          })
+          .catch((error)=>{
+            console.log('getUserError:',error)
+          })  
+        }else{
+          Toast.show(TOAST_USER_NOTFOUND, TOAST_CONFIG);
+          this.celular.clearText();
+          this.setModalVisible(false)
+        }
       }else{
         this.setModalVisible(false)
         Toast.show(TOAST_UNKNOWN_ERROR, TOAST_CONFIG)
@@ -125,39 +143,43 @@ class SelectUser extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container,styles.BgSelectUser]}>
         <Spinner visible={this.state.modalVisible} textContent={"Cargando..."} textStyle={{color: '#FFF'}} />
         <ScrollView style={styles.contentContainer}>
-          <View style={styles.regform}>
-            <View style={styles.viewfield}>
-              <Text style={styles.title}>Pagar a:</Text>
-            </View>
-            <View style={styles.viewfield}>
-              <Icon name="ios-call" style={styles.icon}/>
+          <View style={[styles.regform,styles.selectForm]}>
+            <Text style={[styles.title,OpenSans.Bold]}>PAGAR A:</Text>
+            <Divider style={{ backgroundColor: BGBLUE,marginHorizontal:dW*0.02,marginVertical:dH*0.02 }} />
+            <View style={styles.field}>
               <View style={styles.registerfield}>
-                <TextInput
-                  style={styles.textinput}
-                  placeholder={'Celular'}
-                  secureTextEntry={false}
-                  underlineColorAndroid={'transparent'}
-                  placeholderTextColor='rgba(255,255,255,0.5)'
-                  onChangeText={(value) => this.setState({ celular: value })}
-                  value={this.state.celular}
-                />
+                <FormLabel
+                  containerStyle={styles.labelContainer}
+                  labelStyle={styles.label}
+                >
+                  Celular
+                </FormLabel>
+                <View>
+                  <FormInput
+                    ref={celular => this.celular = celular}
+                    containerStyle={styles.inputContainer}
+                    inputStyle={styles.input} 
+                    placeholder='escribe un número de celular'
+                    value={this.state.celular}
+                    keyboardType='numeric'
+                    onChangeText={celular => this.setState({ celular })}
+                  />
+                  <TouchableOpacity style={styles.buttonSearch}  onPress={() => this.searchByUsername(this.props.globalAccessToken)}>
+                    <Icon name="ios-search" style={styles.iconSearch}/>
+                  </TouchableOpacity>
+                </View>
               </View>
-              <TouchableOpacity style={styles.buttonSearch}  onPress={() => this.searchByUsername(this.props.globalAccessToken)}>
-                <Icon name="ios-search" style={styles.iconSearch}/>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.viewUser}>
-              <Userto/>
-            </View>
-            <View style={styles.viewfield}>
-              <TouchableOpacity style={styles.button}  onPress={() => this.props.navigation.navigate('MakePayment')}>
-                <Text style={styles.btnText}>Pagar</Text>
-              </TouchableOpacity>
             </View>
           </View>
+          <View style={[styles.regform,styles.viewUser]}>
+            <Userto/>
+          </View>
+          <TouchableOpacity style={styles.button}  onPress={() => this.props.navigation.navigate('MakePayment')}>
+            <Text style={styles.btnText}>PAGAR</Text>
+          </TouchableOpacity>
         </ScrollView>
       </View>
     );

@@ -19,6 +19,7 @@ import {
   dW,
   dH,
 }from '../Helpers/constantes'
+import { BGBLUE } from '../Helpers/colors';
 
 class Userto extends Component {
 
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems: 'center',
     justifyContent:'center',
+    paddingHorizontal:dW*0.03
   },
   userProfileImage:{
     flex:0.3,
@@ -88,12 +90,12 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   name:{
-    color:'#FFF',
+    color:BGBLUE,
     fontSize:24,
     paddingBottom:dH*0.01,
   },
   username:{
-    color:'rgba(255,255,255,0.5)',
+    color:'rgba(0,0,0,0.5)',
     fontSize:18,
   },
 });
